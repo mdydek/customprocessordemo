@@ -34,7 +34,7 @@ jsi::Function NativeAudioProcessingModule::createInstaller(jsi::Runtime &runtime
           auto ctx2 = std::static_pointer_cast<audioapi::BaseAudioContextHostObject>(context);
         if (ctx2 != nullptr) {
           auto node = std::make_shared<audioapi::MyProcessorNode>(ctx2->context_.get());
-          auto nodeHostObject = std::make_shared<audioapi::AudioNodeHostObject>(node);
+          auto nodeHostObject = std::make_shared<audioapi::CustomProcessorNodeHostObject>(node);
           return jsi::Object::createFromHostObject(runtime, nodeHostObject);
         }
         return jsi::Object::createFromHostObject(runtime, nullptr);
