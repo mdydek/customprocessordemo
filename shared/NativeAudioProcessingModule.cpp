@@ -4,7 +4,10 @@
 #include <functional>
 #include <memory>
 #include <audioapi/HostObjects/AudioContextHostObject.h>
+#include <audioapi/jsi/JsiHostObject.h>
 #include "MyProcessorNode.h"
+#include <android/log.h>
+#include <typeinfo>
 
 namespace facebook::react {
 
@@ -23,9 +26,10 @@ jsi::Function NativeAudioProcessingModule::createInstaller(jsi::Runtime &runtime
       0,
       [](jsi::Runtime &runtime, const jsi::Value &thisVal, const jsi::Value *args, size_t count) {
           auto object = args[0].getObject(runtime);
-          auto ctx = object.getHostObject<jsi::HostObject>(runtime);
-          auto context = std::static_pointer_cast<audioapi::AudioContextHostObject>(ctx);
-//        auto context = object.getHostObject<audioapi::AudioContextHostObject>(runtime);
+//          auto ctx = object.getHostObject<jsi::HostObject>(runtime);
+//          auto context = std::static_pointer_cast<audioapi::AudioContextHostObject>(ctx);
+        __android_log_print(ANDROID_LOG_INFO, "audio context in installer", "%s", typeid(audioapi::AudioContextHostObject).name());
+        auto context = object.getHostObject<audioapi::AudioContextHostObject>(runtime);
         if (context != nullptr) {
           auto node = std::make_shared<audioapi::MyProcessorNode>(context->context_.get());
           auto nodeHostObject = std::make_shared<audioapi::MyProcessorNodeHostObject>(node);

@@ -5,7 +5,6 @@ project(appmodules)
 
 set(ROOT ${CMAKE_SOURCE_DIR}/../../../../..)
 
-# This file includes all the necessary to let you build your React Native application
 include(${REACT_ANDROID_DIR}/cmake-utils/ReactNative-application.cmake)
 
 file(GLOB_RECURSE RNAUDIOAPI_SRC
@@ -28,12 +27,13 @@ target_include_directories(rnaudioapi_c PUBLIC
   ${ROOT}/node_modules/react-native-audio-api/common/cpp
 )
 
-# Define where the additional source code lives. We need to crawl back the jni, main, src, app, android folders
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -frtti)
+
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${ROOT}/shared/NativeAudioProcessingModule.cpp
     ${ROOT}/shared/MyProcessorNode.cpp
+    ${ROOT}/shared/MyProcessorNodeHostObject.cpp
     ${RNAUDIOAPI_SRC})
 
-# Define where CMake can find the additional header files. We need to crawl back the jni, main, src, app, android folders
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${ROOT}/shared
     ${ROOT}/node_modules/react-native-audio-api/common/cpp)
 

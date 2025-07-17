@@ -20,6 +20,8 @@ public:
     addSetters(JSI_EXPORT_PROPERTY_SETTER(MyProcessorNodeHostObject, gain));
   }
 
+  ~MyProcessorNodeHostObject() override;
+
   JSI_PROPERTY_GETTER(gain) {
     auto processorNode = std::static_pointer_cast<MyProcessorNode>(node_);
     return {processorNode->getGain()};
